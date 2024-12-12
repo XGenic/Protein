@@ -10,6 +10,7 @@ class Product(db.Model):
     servings = db.Column(db.Integer, nullable=False)
     marketplace = db.Column(db.String(50), nullable=False)
     url = db.Column(db.String(500))
+    product_type = db.Column(db.String(20))  # 'powder' or 'bar'
     last_updated = db.Column(db.DateTime, default=datetime.utcnow)
 
     def protein_price_ratio(self):

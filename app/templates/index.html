@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Protein Price Tracker</h1>
+
+<div class="controls">
+    <div class="search-form">
+        <input type="text" name="search" placeholder="Search products or brands..." value="{{ search }}">
+        
+        <select name="type">
+            <option value="all" {% if product_type == 'all' %}selected{% endif %}>All Types</option>
+            <option value="powder" {% if product_type == 'powder' %}selected{% endif %}>Powder</option>
+            <option value="bar" {% if product_type == 'bar' %}selected{% endif %}>Bars</option>
+        </select>
+        
+        <select name="sort">
+            <option value="price_per_protein" {% if sort_by == 'price_per_protein' %}selected{% endif %}>Best Value ($/g protein)</option>
+            <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Lowest Price</option>
+            <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Highest Price</option>
+            <option value="protein" {% if sort_by == 'protein' %}selected{% endif %}>Most Protein</option>
+        </select>
+    </div>
+</div>
+
+<div class="products">
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Protein/Serving</th>
+                <th>Servings</th>
+                <th>Price per gram protein</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.product_type.capitalize() }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.brand }}</td>
+                <td>${{ "%.2f"|format(product.price) }}</td>
+                <td>{{ product.protein_per_serving }}g</td>
+                <td>{{ product.servings }}</td>
+                <td>${{ "%.3f"|format(product.protein_price_ratio()) }}/g</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
